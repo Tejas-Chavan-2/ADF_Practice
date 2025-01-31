@@ -1,0 +1,31 @@
+{
+	"name": "UTCNow_DS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ADLS_LS",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"filename": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "Sanket Dataset"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().filename",
+					"type": "Expression"
+				},
+				"folderPath": "CustomerAddress",
+				"fileSystem": "landing"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,25 @@
+{
+	"name": "Coaches_DS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "GitHub_LS",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"URLname": "Coaches.csv"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

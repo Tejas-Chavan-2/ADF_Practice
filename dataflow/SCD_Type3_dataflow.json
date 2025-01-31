@@ -1,0 +1,134 @@
+{
+	"name": "SCD_Type3_dataflow",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Employee_DS",
+						"type": "DatasetReference"
+					},
+					"name": "CSVfile"
+				},
+				{
+					"dataset": {
+						"referenceName": "Employee_SQL_DB_DS",
+						"type": "DatasetReference"
+					},
+					"name": "DBTable"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Employee_SQL_DB_DS",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				},
+				{
+					"dataset": {
+						"referenceName": "Employee_SQL_DB_DS",
+						"type": "DatasetReference"
+					},
+					"name": "sink2"
+				}
+			],
+			"transformations": [
+				{
+					"name": "select1"
+				},
+				{
+					"name": "lookup1"
+				},
+				{
+					"name": "filter1"
+				},
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "derivedColumn2"
+				},
+				{
+					"name": "AlterRow1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          id as integer,",
+				"          name as string,",
+				"          city as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> CSVfile",
+				"source(output(",
+				"          id as integer,",
+				"          name as string,",
+				"          city as string,",
+				"          old_city_1 as string,",
+				"          old_city_2 as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> DBTable",
+				"DBTable select(mapColumn(",
+				"          db_id = id,",
+				"          db_city = city,",
+				"          db_old_city_1 = old_city_1",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"CSVfile, select1 lookup(id == db_id,",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> lookup1",
+				"lookup1 filter(!isNull(db_id)) ~> filter1",
+				"filter1 derive(db_old_city_1 = db_city,",
+				"          db_city = city) ~> derivedColumn1",
+				"CSVfile derive(city = city) ~> derivedColumn2",
+				"derivedColumn1 alterRow(updateIf(true())) ~> AlterRow1",
+				"AlterRow1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          id as integer,",
+				"          name as string,",
+				"          city as string,",
+				"          old_city_1 as string,",
+				"          old_city_2 as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:false,",
+				"     updateable:true,",
+				"     upsertable:false,",
+				"     keys:['id'],",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     saveOrder: 1,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1",
+				"derivedColumn2 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          id as integer,",
+				"          name as string,",
+				"          city as string,",
+				"          old_city_1 as string,",
+				"          old_city_2 as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     saveOrder: 2,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink2"
+			]
+		}
+	}
+}

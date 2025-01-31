@@ -1,0 +1,25 @@
+{
+	"name": "SQL_DB_LS_Param",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"parameters": {
+			"userName": {
+				"type": "string"
+			},
+			"Password": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"server": "dataengineer2server.database.windows.net",
+			"database": "dataengineer2DB",
+			"encrypt": "mandatory",
+			"trustServerCertificate": false,
+			"authenticationType": "SQL",
+			"userName": "@{linkedService().userName}",
+			"password": "@{linkedService().Password}"
+		}
+	}
+}

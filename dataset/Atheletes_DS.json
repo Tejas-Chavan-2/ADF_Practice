@@ -1,0 +1,25 @@
+{
+	"name": "Atheletes_DS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "GitHub_LS",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"URLname": "Athletes.csv"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

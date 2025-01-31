@@ -1,0 +1,98 @@
+{
+	"name": "for_each_pipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "copy multiplr tables",
+				"type": "ForEach",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@createArray('Customer','Product','CustomerAddress','ProductDescription')",
+						"type": "Expression"
+					},
+					"isSequential": true,
+					"activities": [
+						{
+							"name": "Copy data1",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "AzureSqlSource",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".txt"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "SQL_GENERIC_DS",
+									"type": "DatasetReference",
+									"parameters": {
+										"schemaName": "saleslt",
+										"tableName": {
+											"value": "@item()",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "GENERIC_ADLS_DS",
+									"type": "DatasetReference",
+									"parameters": {
+										"folderPath": {
+											"value": "@item()",
+											"type": "Expression"
+										},
+										"fileName": {
+											"value": "@item()",
+											"type": "Expression"
+										},
+										"fileSystem": {
+											"value": "@item()",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2025-01-05T16:59:56Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,121 @@
+{
+	"name": "childproductpipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "Fetch Product Count",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "select count (*) as ProductCount from saleslt.Product",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "SQL_GENERIC_DS",
+						"type": "DatasetReference",
+						"parameters": {
+							"schemaName": "saleslt",
+							"tableName": "Product"
+						}
+					}
+				}
+			},
+			{
+				"name": "If ProductCount more than 100",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Fetch Product Count",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@greater(activity('Fetch Product Count').output.firstRow.ProductCount,100)",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "Copy Product data",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "AzureSqlSource",
+									"queryTimeout": "02:00:00",
+									"partitionOption": "None"
+								},
+								"sink": {
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".txt"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "SQL_GENERIC_DS",
+									"type": "DatasetReference",
+									"parameters": {
+										"schemaName": "saleslt",
+										"tableName": "Product"
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "GENERIC_ADLS_DS",
+									"type": "DatasetReference",
+									"parameters": {
+										"folderPath": "loockup",
+										"fileName": "productmore100",
+										"fileSystem": "rawdata"
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2025-01-06T12:44:34Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

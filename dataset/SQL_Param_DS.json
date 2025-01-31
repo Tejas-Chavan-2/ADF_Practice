@@ -1,0 +1,17 @@
+{
+	"name": "SQL_Param_DS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "SQL_DB_LS_Param",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"userName": "Tejas",
+				"Password": "Teja@123"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

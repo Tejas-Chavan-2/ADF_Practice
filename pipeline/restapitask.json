@@ -1,0 +1,45 @@
+{
+	"name": "restapitask",
+	"properties": {
+		"activities": [
+			{
+				"name": "Web1",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "POST",
+					"url": "https://api.restful-api.dev/objects",
+					"body": {
+						"value": "@pipeline().parameters.SelectColumns",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"SelectColumns": {
+				"type": "string",
+				"defaultValue": {
+					"name": "Apple MacBook Pro 16",
+					"data": {
+						"year": 2019,
+						"price": 1849.99,
+						"CPU model": "Intel Core i9",
+						"Hard disk size": "1 TB"
+					}
+				}
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2025-01-14T17:59:22Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

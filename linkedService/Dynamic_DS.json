@@ -1,0 +1,11 @@
+{
+	"name": "Dynamic_DS",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://dataengineer2adls.dfs.core.windows.net/"
+		}
+	}
+}

@@ -1,0 +1,37 @@
+{
+	"name": "JSON_DS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ADLS_LS",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Sanket Dataset"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "new",
+				"folderPath": "jsondata",
+				"fileSystem": "rawdata"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"fruit": {
+					"type": "string"
+				},
+				"size": {
+					"type": "string"
+				},
+				"color": {
+					"type": "string"
+				}
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

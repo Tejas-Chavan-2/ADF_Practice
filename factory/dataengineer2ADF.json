@@ -1,0 +1,17 @@
+{
+	"name": "dataengineer2ADF",
+	"properties": {
+		"globalParameters": {
+			"schemaNameGlobalParam": {
+				"type": "string",
+				"value": "saleslt"
+			}
+		}
+	},
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "b5d6d8fd-dc59-4a62-a97c-efa0c7b45594",
+		"tenantId": "87ebb4ff-28ad-4ff1-8803-a4e923191a37"
+	}
+}

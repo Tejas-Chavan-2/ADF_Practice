@@ -1,0 +1,33 @@
+{
+	"name": "SourceConfig1_DS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Source_LS",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"Sourcecontainer": {
+				"type": "string"
+			},
+			"filename": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().filename",
+					"type": "Expression"
+				},
+				"fileSystem": {
+					"value": "@dataset().Sourcecontainer",
+					"type": "Expression"
+				}
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

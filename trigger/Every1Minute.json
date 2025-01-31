@@ -1,0 +1,43 @@
+{
+	"name": "Every1Minute",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "copy_data_from_adls_to_SQLDB",
+					"type": "PipelineReference"
+				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "copy_parquet_pipeline",
+					"type": "PipelineReference"
+				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "copy_json_pipeline",
+					"type": "PipelineReference"
+				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "pipeline6",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Minute",
+				"interval": 1,
+				"startTime": "2025-01-14T06:38:00",
+				"endTime": "2025-01-29T06:38:00",
+				"timeZone": "India Standard Time"
+			}
+		}
+	}
+}

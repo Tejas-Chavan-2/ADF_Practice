@@ -1,0 +1,60 @@
+{
+	"name": "PL_Return Value",
+	"properties": {
+		"activities": [
+			{
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "pipelineReturnValue",
+					"value": [
+						{
+							"key": "string_prv",
+							"value": {
+								"type": "String",
+								"content": "this is text"
+							}
+						},
+						{
+							"key": "expression_prv",
+							"value": {
+								"type": "Expression",
+								"content": "@utcNow()"
+							}
+						},
+						{
+							"key": "array_prv",
+							"value": {
+								"type": "Array",
+								"content": [
+									{
+										"type": "String",
+										"content": "first"
+									},
+									{
+										"type": "String",
+										"content": "second "
+									},
+									{
+										"type": "String",
+										"content": "third"
+									}
+								]
+							}
+						}
+					],
+					"setSystemVariable": true
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2025-01-11T17:00:06Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

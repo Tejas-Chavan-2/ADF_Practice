@@ -1,0 +1,18 @@
+{
+	"name": "GitHub_LS",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"parameters": {
+			"URLname": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "HttpServer",
+		"typeProperties": {
+			"url": "@{concat('https://raw.githubusercontent.com/Tejas-Chavan-2/omlypics_data/refs/heads/main/',linkedService().URLname)}",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Anonymous"
+		}
+	}
+}

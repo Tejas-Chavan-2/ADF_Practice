@@ -1,0 +1,39 @@
+{
+	"name": "pipeline3",
+	"properties": {
+		"activities": [
+			{
+				"name": "Web1",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "POST",
+					"url": "https://reqres.in/api/users",
+					"body": {
+						"value": "@concat('{\"name\": \"', pipeline().parameters.name, '\", \"job\": \"', pipeline().parameters.job, '\"}')\n",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"name": {
+				"type": "string"
+			},
+			"job": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2025-01-15T14:02:30Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
